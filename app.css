@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    font-size: 3rem;
+    flex-direction: column;
+    color: white;
+}
+
+.title {
+    margin: 20px;
+}
+
+.subtext {
+    color: #CCC;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#mineSweeper {
+
+}
+
+#grid {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#grid TR TD{
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: large;
+    border:1px solid beige;
+    background: #999999;
+    width: 10vmin;
+    height: 10vmin;
+    text-align: center;
+}
+
+#grid TR TD.clicked {
+    background-color: #2aa582;
+}
+
+#grid TR TD.mine {
+    pointer-events: none;
+    cursor: default;
+    background: #FF0000;
+}
+
+#grid TR TD.flag {
+    background: yellow;
+}
+
