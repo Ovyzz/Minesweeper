@@ -12,7 +12,7 @@ function generateBoard() {
        let line = grid.insertRow(i);
         for (let j = 0; j < columns; ++j) {
             let  element = line.insertCell(j);
-            grid.rows[i].cells[j].setAttribute("mine", "false");
+            grid.rows[i].cells[j].setAttribute("bomb", "false");
             grid.rows[i].cells[j].setAttribute("flag", "false");
             grid.rows[i].cells[j].onclick = function(){ visibleElement(this);}
             grid.rows[i].cells[j].addEventListener('contextmenu', function(ev) {
@@ -39,7 +39,7 @@ function generateBombs() {
     for (let i = 0; i < bombs; ++i) {
         let randomLine = Math.floor(Math.random() * lines);
         let randomColumn = Math.floor(Math.random() * columns);
-        grid.rows[randomLine].cells[randomColumn].setAttribute("mine", "true");
+        grid.rows[randomLine].cells[randomColumn].setAttribute("bomb", "true");
     }
 }
 
@@ -47,7 +47,7 @@ function checkWinner() {
     let check = 1;
     for (let i = 0; i < lines; ++i) {
         for (let j = 0; j < columns; ++j) {
-            if (grid.rows[i].cells[j].getAttribute("mine") === "false" && grid.rows[i].cells[j].innerText === "") {
+            if (grid.rows[i].cells[j].getAttribute("bomb") === "false" && grid.rows[i].cells[j].innerText === "") {
                 check = 0;
             }
         }
@@ -58,11 +58,11 @@ function checkWinner() {
 }
 
 function visibleElement(element) {
-    if (element.getAttribute("mine") === "true") {
+    if (element.getAttribute("bomb") === "true") {
         for (let i = 0; i < lines; ++i) {
             for (let j = 0; j < columns; ++j) {
-                if (grid.rows[i].cells[j].getAttribute("mine") === "true") {
-                    grid.rows[i].cells[j].className = "mine";
+                if (grid.rows[i].cells[j].getAttribute("bomb") === "true") {
+                    grid.rows[i].cells[j].className = "bomb";
                 }
             }
         }
@@ -74,20 +74,20 @@ function visibleElement(element) {
             document.getElementById("minesleft").innerText = flag;
         }
         element.className = "clicked";
-        let isBomb = 0;
-        let indexL = element.parentNode.rowIndex;
-        let indexC = element.cellIndex;
-        for (let i = Math.max(indexL - 1, 0); i <= Math.min(indexL + 1, lines - 1); i++) {
-            for (let j = Math.max(indexC - 1, 0); j <= Math.min(indexC + 1, columns - 1); j++) {
-                if (grid.rows[i].cells[j].getAttribute("mine") === "true") {
-                    isBomb++;
+        let numberBombs = 0;
+        let indexLine = element.parentNode.rowIndex;
+        let indexColumn = element.cellIndex;
+        for (let i = Math.max(indexLine - 1, 0); i <= Math.min(indexLine + 1, lines - 1); i++) {
+            for (let j = Math.max(indexColumn - 1, 0); j <= Math.min(indexColumn + 1, columns - 1); j++) {
+                if (grid.rows[i].cells[j].getAttribute("bomb") === "true") {
+                    ++numberBombs;
                 }
             }
         }
-        element.innerHTML = isBomb;
-        if (isBomb === 0) {
-            for (let i = Math.max(indexL - 1, 0); i <= Math.min(indexL + 1, lines - 1); i++) {
-                for (let j = Math.max(indexC - 1, 0); j <= Math.min(indexC + 1, columns - 1); j++) {
+        element.innerHTML = numberBombs;
+        if (numberBombs === 0) {
+            for (let i = Math.max(indexLine - 1, 0); i <= Math.min(indexLine + 1, lines - 1); i++) {
+                for (let j = Math.max(indexColumn - 1, 0); j <= Math.min(indexColumn + 1, columns - 1); j++) {
                     if (grid.rows[i].cells[j].innerHTML === "") {
                         visibleElement(grid.rows[i].cells[j]);
                     }

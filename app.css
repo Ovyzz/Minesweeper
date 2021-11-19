@@ -41,7 +41,7 @@ body {
     background-color: #2aa582;
 }
 
-#grid TR TD.mine {
+#grid TR TD.bomb {
     pointer-events: none;
     cursor: default;
     background: #FF0000;
